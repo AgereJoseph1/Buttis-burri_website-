@@ -5,6 +5,48 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fade-in animation for page load */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale animation for cards */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Enhanced button hover effects */
 .btn-warning:hover {
   transform: translateY(-2px);
@@ -48,23 +90,54 @@ a.text-decoration-none:hover {
   background-color: rgba(255, 255, 255, 0.98) !important;
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.navbar-default.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
 }
 
 .nav-link:hover {
   color: #ffc107 !important;
-  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #ffc107;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
 }
 
 /* Improved top bar for mobile */
 @media (max-width: 768px) {
   .bg-primary.py-1 {
-    font-size: 0.75rem;
-    padding: 0.5rem 0 !important;
+    font-size: 0.7rem;
+    padding: 0.4rem 0 !important;
+    line-height: 1.4;
   }
   
   .bg-primary.py-1 span {
     display: block;
-    margin: 0.25rem 0;
+    margin: 0.2rem 0;
+  }
+  
+  .bg-primary.py-1 a {
+    font-size: 0.7rem;
+    word-break: break-all;
   }
 }
 
@@ -78,6 +151,7 @@ button:focus {
 /* Enhanced slider text readability */
 .py-22 {
   position: relative;
+  animation: fadeIn 0.8s ease-out;
 }
 
 .py-22::before {
@@ -89,6 +163,7 @@ button:focus {
   bottom: 0;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
   z-index: 1;
+  transition: opacity 0.3s ease;
 }
 
 .py-22 > .container {
@@ -96,15 +171,34 @@ button:focus {
   z-index: 2;
 }
 
+/* Slider content animation */
+.py-22 h1,
+.py-22 .lead {
+  animation: slideIn 0.8s ease-out 0.2s both;
+}
+
 /* Improved accordion styling */
 .accordion .card-header {
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .accordion .card-header:hover {
   background-color: #f8f9fa;
+  transform: translateX(5px);
 }
+
+.accordion .card {
+  animation: scaleIn 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.accordion .card:nth-child(1) { animation-delay: 0.1s; }
+.accordion .card:nth-child(2) { animation-delay: 0.2s; }
+.accordion .card:nth-child(3) { animation-delay: 0.3s; }
+.accordion .card:nth-child(4) { animation-delay: 0.4s; }
+.accordion .card:nth-child(5) { animation-delay: 0.5s; }
+.accordion .card:nth-child(6) { animation-delay: 0.6s; }
 
 /* Better spacing for application section */
 #apply {
@@ -113,19 +207,41 @@ button:focus {
 
 /* Enhanced footer */
 .bg-light {
-  border-top: 3px solid #ffc107;
+  /* border-top removed */
 }
 
 /* Improved contact cards */
 .card.shadow-sm {
   border: 1px solid #e9ecef;
   transition: all 0.3s ease;
+  animation: scaleIn 0.5s ease-out;
+  animation-fill-mode: both;
 }
+
+.card.shadow-sm:nth-child(1) { animation-delay: 0.1s; }
+.card.shadow-sm:nth-child(2) { animation-delay: 0.2s; }
+.card.shadow-sm:nth-child(3) { animation-delay: 0.3s; }
 
 /* Better typography */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.3;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Section animations */
+.bg-white > .container {
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* About section image animation */
+.about-img {
+  animation: fadeIn 1s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.about-img:hover {
+  transform: scale(1.02);
 }
 
 /* Improved readability for paragraphs */
@@ -149,19 +265,272 @@ p {
   padding-left: 0.5rem;
 }
 
-/* Better mobile responsiveness */
-@media (max-width: 576px) {
-  .display-2 {
-    font-size: 2rem;
+/* Comprehensive mobile responsiveness */
+@media (max-width: 768px) {
+  /* Navigation improvements */
+  .navbar-brand img {
+    width: 80px !important;
+    height: auto;
   }
   
-  .btn-lg {
-    padding: 0.75rem 1.5rem;
+  .navbar {
+    padding: 0.5rem 0;
+  }
+  
+  .nav-link {
+    padding: 0.75rem 1rem !important;
     font-size: 1rem;
   }
   
+  /* Slider improvements */
+  .display-2 {
+    font-size: 1.75rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem !important;
+  }
+  
+  .lead {
+    font-size: 1rem !important;
+    line-height: 1.5;
+  }
+  
   .py-22 {
-    padding: 3rem 0 !important;
+    padding: 4rem 0 !important;
+    min-height: 300px;
+  }
+  
+  /* Button improvements for touch */
+  .btn-lg {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+    min-height: 44px; /* Minimum touch target size */
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Section spacing */
+  .py-lg-16 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  .py-lg-14 {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  
+  .py-10 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.3;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  h4 {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Container padding */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .px-6 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Cards */
+  .card {
+    margin-bottom: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  /* Lists */
+  ul.list-unstyled li {
+    margin-bottom: 0.75rem !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  
+  /* Footer */
+  .bg-light {
+    padding: 2rem 0 !important;
+  }
+  
+  .bg-light .row {
+    text-align: center;
+  }
+  
+  .bg-light .text-md-end {
+    text-align: center !important;
+    margin-top: 1rem;
+  }
+  
+  .bg-light a {
+    display: inline-block;
+    margin: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Contact cards */
+  .card.shadow-sm {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Application section */
+  #apply {
+    scroll-margin-top: 80px;
+  }
+  
+  /* Accordion */
+  .accordion .card-header {
+    padding: 1rem;
+  }
+  
+  .accordion .card-header h4 {
+    font-size: 1rem;
+  }
+  
+  /* About section image */
+  .about-img {
+    min-height: 250px !important;
+    margin-top: 1.5rem;
+  }
+}
+
+/* Extra small devices (phones, 576px and down) */
+@media (max-width: 576px) {
+  .display-2 {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .display-4 {
+    font-size: 1.75rem !important;
+  }
+  
+  .btn-lg {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+    width: auto;
+    min-width: 140px;
+    max-width: 100%;
+  }
+  
+  .py-22 {
+    padding: 2.5rem 0 !important;
+    min-height: 280px;
+  }
+  
+  h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.3;
+  }
+  
+  .lead {
+    font-size: 0.95rem !important;
+    line-height: 1.5;
+  }
+  
+  /* Top bar - even smaller text */
+  .bg-primary.py-1 {
+    font-size: 0.65rem !important;
+    padding: 0.35rem 0 !important;
+  }
+  
+  .bg-primary.py-1 a {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Logo smaller */
+  .navbar-brand img {
+    width: 70px !important;
+  }
+  
+  /* Container padding */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Better spacing for lists */
+  ul.list-unstyled li {
+    margin-bottom: 0.5rem !important;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  /* About section improvements */
+  .px-6 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Better button spacing */
+  .btn {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Very small devices (iPhone SE, small phones, 390px and below) */
+@media (max-width: 390px) {
+  .display-2 {
+    font-size: 1.35rem !important;
+  }
+  
+  h1 {
+    font-size: 1.35rem !important;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.95rem !important;
+    width: 100%;
+  }
+  
+  .py-22 {
+    padding: 2rem 0 !important;
+    min-height: 250px;
+  }
+  
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .bg-primary.py-1 {
+    font-size: 0.6rem !important;
+  }
+  
+  .bg-primary.py-1 a {
+    font-size: 0.6rem !important;
+  }
+  
+  .navbar-brand img {
+    width: 60px !important;
+  }
+  
+  /* Better text wrapping */
+  p, .lead {
+    word-wrap: break-word;
+    hyphens: auto;
   }
 }
 
@@ -169,6 +538,60 @@ p {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Ensure images don't overflow on mobile */
+@media (max-width: 768px) {
+  img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Better table responsiveness if any tables exist */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Better text wrapping */
+  .text-uppercase {
+    word-break: break-word;
+  }
+}
+
+/* Loading spinner for buttons */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+}
+
+/* Image lazy loading */
+img[data-src] {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img[data-src].loaded {
+  opacity: 1;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Better form elements if any are added later */
